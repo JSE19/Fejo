@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeSale - Seller Onboarding</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-background": "#141b2b",
+                        "background": "#f9f9ff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-variant": "#dce2f7",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-container": "#4f46e5",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "outline": "#777587",
+                        "surface": "#f9f9ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-highest": "#dce2f7",
+                        "surface-tint": "#4d44e3",
+                        "tertiary": "#7e3000",
+                        "surface-container": "#e9edff",
+                        "on-surface-variant": "#464555",
+                        "outline-variant": "#c7c4d8",
+                        "tertiary-fixed": "#ffdbcc",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-dim": "#d3daef",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary": "#505f76",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-container": "#ffd2be",
+                        "on-tertiary-fixed": "#351000",
+                        "on-primary-container": "#dad7ff",
+                        "secondary-container": "#d0e1fb",
+                        "inverse-surface": "#293040",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#a44100",
+                        "primary-fixed": "#e2dfff",
+                        "on-primary-fixed": "#0f0069",
+                        "surface-container-high": "#e1e8fd",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary": "#3525cd",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#141b2b",
+                        "on-secondary-container": "#54647a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "container-max-width": "1280px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center p-margin-mobile antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Suppressed Nav Shell: Using only the Brand Wordmark as per Linear/Transactional flow rules -->
+<div class="mb-8 font-headline-md text-headline-md font-bold text-primary">
+        SafeSale
+    </div>
+<!-- Main Centered Card -->
+<main class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05),0_4px_6px_-4px_rgba(0,0,0,0.05)] p-6 sm:p-8 relative overflow-hidden">
+<!-- Header -->
+<header class="mb-6 text-center">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-2">Open your shop in 30 seconds.</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Your shop is owned by your Nostr key. No email, no password, no bank account needed yet.</p>
+</header>
+<!-- Segmented Tab Control -->
+<div class="flex bg-surface-container p-1 rounded-lg mb-8 relative">
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md bg-surface-container-lowest text-primary shadow-sm transition-all duration-200" id="tab-create" onclick="switchTab('create')">
+                Create a new key
+            </button>
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md text-on-surface-variant hover:text-on-surface bg-transparent transition-all duration-200" id="tab-import" onclick="switchTab('import')">
+                I already have a Nostr key
+            </button>
+</div>
+<!-- Tab 1: Create -->
+<div class="animate-in fade-in duration-300" id="content-create">
+<div class="space-y-5 mb-6">
+<!-- Input: Shop Handle -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="input-handle">Shop Handle</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-outline-variant font-body-md text-body-md pointer-events-none">@</span>
+<input autocomplete="off" class="w-full pl-8 pr-10 py-2.5 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder-outline-variant" id="input-handle" oninput="validateCreateForm()" placeholder="yourshop" type="text"/>
+<span class="material-symbols-outlined absolute right-3 text-primary hidden text-[20px] pointer-events-none transition-opacity duration-200" id="handle-status">check_circle</span>
+</div>
+</div>
+<!-- Input: Shop Name -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="input-name">Shop Name</label>
+<input class="w-full px-3.5 py-2.5 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder-outline-variant" id="input-name" oninput="validateCreateForm()" placeholder="e.g. Vintage Vault" type="text"/>
+</div>
+</div>
+<!-- Disclosure -->
+<div class="flex items-start gap-2 p-3 bg-surface-container-low rounded-lg mb-6 border border-surface-container-highest">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">lock</span>
+<p class="font-body-sm text-body-sm text-secondary leading-snug">
+                    We'll generate a Nostr key and store it securely in this browser. You can export it any time.
+                </p>
+</div>
+<!-- Action Button -->
+<button class="w-full py-3 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg opacity-50 cursor-not-allowed transition-all duration-200 hover:bg-primary-container/90 active:scale-[0.98]" disabled="" id="btn-create" onclick="createShop()">
+                Create my shop
+            </button>
+</div>
+<!-- Tab 2: Import (Hidden by default) -->
+<div class="hidden" id="content-import">
+<!-- Connection Options -->
+<div class="space-y-3 mb-6 animate-in fade-in slide-in-from-right-4 duration-300" id="import-options">
+<button class="w-full flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface bg-surface-bright hover:bg-surface-container-low hover:border-outline transition-all active:scale-[0.98]" onclick="simulateConnect('extension')">
+<span class="material-symbols-outlined text-[20px] text-primary">extension</span> Browser extension (Alby, nos2x)
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface bg-surface-bright hover:bg-surface-container-low hover:border-outline transition-all active:scale-[0.98]" onclick="simulateConnect('paste')">
+<span class="material-symbols-outlined text-[20px] text-primary">key</span> Paste nsec
+                </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface bg-surface-bright hover:bg-surface-container-low hover:border-outline transition-all active:scale-[0.98]" onclick="simulateConnect('remote')">
+<span class="material-symbols-outlined text-[20px] text-primary">cloud_sync</span> Remote signer (nsecbunker)
+                </button>
+</div>
+<!-- Connected State (Hidden by default) -->
+<div class="hidden animate-in fade-in zoom-in-95 duration-300" id="import-connected">
+<div class="flex items-center gap-3 mb-5 p-3.5 bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm text-on-surface">Connected successfully</p>
+<p class="font-body-sm text-body-sm text-secondary truncate">npub1xyz...89qr</p>
+</div>
+</div>
+<div class="space-y-5 mb-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="input-import-handle">Shop Handle</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-outline-variant font-body-md text-body-md pointer-events-none">@</span>
+<input class="w-full pl-8 pr-4 py-2.5 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder-outline-variant" id="input-import-handle" placeholder="yourshop" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="input-import-name">Shop Name</label>
+<input class="w-full px-3.5 py-2.5 bg-surface-bright border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder-outline-variant" id="input-import-name" placeholder="e.g. Vintage Vault" type="text"/>
+</div>
+</div>
+<button class="w-full py-3 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg transition-all hover:bg-primary-container/90 active:scale-[0.98]" onclick="openImportedShop()">
+                    Open my shop
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer Ghost Link -->
+<div class="mt-6 text-center">
+<button class="font-label-sm text-label-sm text-secondary hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container/20 rounded px-2 py-1" onclick="toggleDialog(true)">
+            What is Nostr?
+        </button>
+</div>
+<!-- Stubbed Dialog: About Nostr -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center p-4" id="nostr-dialog">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-background/20 backdrop-blur-sm transition-opacity opacity-0" id="nostr-dialog-backdrop" onclick="toggleDialog(false)"></div>
+<!-- Dialog Card -->
+<div class="relative w-full max-w-sm bg-surface-container-lowest rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] p-6 z-10 transform scale-95 opacity-0 transition-all duration-300 ease-out" id="nostr-dialog-card">
+<button class="absolute top-4 right-4 text-outline hover:text-on-surface transition-colors p-1 rounded-full hover:bg-surface-container focus:outline-none" onclick="toggleDialog(false)">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">public</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">About Nostr</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 leading-relaxed">
+                Nostr is a simple, open protocol that enables global, decentralized, and censorship-resistant communication and commerce. Instead of relying on a central server, your identity is a cryptographic key.
+            </p>
+<button class="w-full py-2.5 bg-surface-container text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-highest transition-colors active:scale-[0.98]" onclick="toggleDialog(false)">
+                Got it
+            </button>
+</div>
+</div>
+</div>
+<script>
+        // Tab Logic
+        function switchTab(tab) {
+            const createContent = document.getElementById('content-create');
+            const importContent = document.getElementById('content-import');
+            const createBtn = document.getElementById('tab-create');
+            const importBtn = document.getElementById('tab-import');
+
+            const activeClasses = ['bg-surface-container-lowest', 'text-primary', 'shadow-sm'];
+            const inactiveClasses = ['text-on-surface-variant', 'hover:text-on-surface', 'bg-transparent'];
+
+            if (tab === 'create') {
+                createContent.classList.remove('hidden');
+                importContent.classList.add('hidden');
+                createBtn.classList.add(...activeClasses);
+                createBtn.classList.remove(...inactiveClasses);
+                importBtn.classList.add(...inactiveClasses);
+                importBtn.classList.remove(...activeClasses);
+                document.getElementById('import-options').classList.remove('hidden');
+                document.getElementById('import-connected').classList.add('hidden');
+            } else {
+                createContent.classList.add('hidden');
+                importContent.classList.remove('hidden');
+                importBtn.classList.add(...activeClasses);
+                importBtn.classList.remove(...inactiveClasses);
+                createBtn.classList.add(...inactiveClasses);
+                createBtn.classList.remove(...activeClasses);
+            }
+        }
+
+        function validateCreateForm() {
+            const handle = document.getElementById('input-handle').value.trim();
+            const name = document.getElementById('input-name').value.trim();
+            const btn = document.getElementById('btn-create');
+            const status = document.getElementById('handle-status');
+            if (handle.length >= 3) {
+                status.classList.remove('hidden');
+                setTimeout(() => status.classList.remove('opacity-0'), 50);
+            } else {
+                status.classList.add('opacity-0');
+                setTimeout(() => status.classList.add('hidden'), 200);
+            }
+            if (handle.length >= 3 && name.length >= 2) {
+                btn.removeAttribute('disabled');
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.setAttribute('disabled', 'true');
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function createShop() {
+            const btn = document.getElementById('btn-create');
+            // TODO: Generate Nostr keypair, store locally, create shop metadata event
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin align-middle mr-2 text-[20px]">progress_activity</span>Creating...`;
+            btn.classList.add('opacity-80', 'cursor-wait');
+            btn.setAttribute('disabled', 'true');
+            setTimeout(() => {
+                btn.innerHTML = `<span class="material-symbols-outlined align-middle mr-2 text-[20px]">check</span>Done`;
+                btn.classList.remove('opacity-80', 'cursor-wait');
+                btn.classList.add('bg-primary', 'text-on-primary');
+            }, 1200);
+        }
+
+        function simulateConnect(method) {
+            // TODO: Handle extension connection, NIP-46, or nsec parsing here based on 'method'
+            document.getElementById('import-options').classList.add('hidden');
+            document.getElementById('import-connected').classList.remove('hidden');
+        }
+
+        function openImportedShop() {
+            // TODO: Create shop metadata event with imported key
+            alert("Proceeding to dashboard...");
+        }
+
+        function toggleDialog(show) {
+            const dialog = document.getElementById('nostr-dialog');
+            const backdrop = document.getElementById('nostr-dialog-backdrop');
+            const card = document.getElementById('nostr-dialog-card');
+            if (show) {
+                dialog.classList.remove('hidden');
+                dialog.classList.add('flex');
+                void dialog.offsetWidth;
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            } else {
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('opacity-0');
+                card.classList.remove('scale-100', 'opacity-100');
+                card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    dialog.classList.add('hidden');
+                    dialog.classList.remove('flex');
+                }, 300);
+            }
+        }
+    </script>
+</body></html>

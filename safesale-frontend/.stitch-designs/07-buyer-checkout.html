@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout - SafeSale</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#e2dfff",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcc",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "primary-container": "#4f46e5",
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-container-high": "#e1e8fd",
+                    "on-surface-variant": "#464555",
+                    "background": "#f9f9ff",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#dce2f7",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "outline-variant": "#c7c4d8",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-tint": "#4d44e3",
+                    "on-error": "#ffffff",
+                    "secondary": "#505f76",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#d3e4fe",
+                    "surface-container-low": "#f1f3ff",
+                    "surface-dim": "#d3daef",
+                    "surface-container": "#e9edff",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-primary-container": "#dad7ff",
+                    "inverse-surface": "#293040",
+                    "surface-bright": "#f9f9ff",
+                    "tertiary": "#7e3000",
+                    "tertiary-container": "#a44100",
+                    "on-secondary-container": "#54647a",
+                    "surface": "#f9f9ff",
+                    "secondary-container": "#d0e1fb",
+                    "primary": "#3525cd",
+                    "outline": "#777587",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#0f0069",
+                    "on-surface": "#141b2b",
+                    "surface-variant": "#dce2f7",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-background": "#141b2b",
+                    "inverse-on-surface": "#edf0ff",
+                    "primary-fixed-dim": "#c3c0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max-width": "1280px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-desktop": "32px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-track { background: transparent; }
+        textarea::-webkit-scrollbar-thumb { background-color: #c7c4d8; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopNavBar (Transactional Variant) -->
+<header class="fixed top-0 w-full bg-surface shadow-sm z-40 h-16 flex justify-between items-center px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto left-0 right-0">
+<div class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">SafeSale</div>
+<a class="flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl">arrow_back</span>Back to shop
+</a>
+</header>
+<main class="flex-grow pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max-width mx-auto w-full">
+<h1 class="hidden md:block font-headline-lg text-headline-lg mb-8 text-on-surface">Secure Checkout</h1>
+<!-- Mobile Order Summary Accordion -->
+<details class="md:hidden bg-surface-container-lowest rounded-2xl shadow-sm mb-6 overflow-hidden border border-outline-variant/30 group">
+<summary class="p-4 flex justify-between items-center font-label-md text-label-md font-bold cursor-pointer list-none select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">receipt_long</span>Order Summary (12,500 sats)
+</span>
+<span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-secondary">expand_more</span>
+</summary>
+<div class="p-4 pt-0 border-t border-outline-variant/20 space-y-3 bg-surface-container-low/50">
+<div class="flex justify-between items-center font-body-sm text-body-sm text-secondary"><span>Handmade Leather Tote</span><span>12,000 sats</span></div>
+<div class="flex justify-between items-center font-body-sm text-body-sm text-secondary"><span>Escrow Network Fee</span><span>500 sats</span></div>
+<div class="pt-3 border-t border-outline-variant/20 flex justify-between items-end">
+<span class="font-label-md text-label-md text-on-surface">Total</span>
+<div class="text-right"><div class="font-headline-md text-headline-md-mobile font-bold text-primary">12,500 sats</div><div class="font-body-sm text-body-sm text-secondary">≈ ₦18,200</div></div>
+</div>
+</div>
+</details>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<!-- Left Column -->
+<div class="md:col-span-8 space-y-6">
+<!-- Product Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] flex flex-col sm:flex-row gap-6">
+<div class="w-full sm:w-1/3 aspect-[16/9] sm:aspect-square bg-surface-container rounded-xl overflow-hidden relative">
+<img alt="Handmade Leather Tote" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj9dK8-sxPpRYwp7lD7_29OAnby2WxRTftiKIroELtMKPPTHtU8FYtPYDtJOdCi-lU7Fb-5dvL-P9UuTDu0vBjHuQQbtZMrLVCEhCSsP1EJMMT0OzrKrhkKptSWpYUGcLObtbK358-0cj5poSu6PSciRtnl4gKLbfxUO9JhDi3pCPoLZpN6nXtCHt6ub9PePMuc5vKK78Zuaq4DQSQ1w1HT3m_011YTnN-B-MAFGiojdPFxaKHZYx4bylcYPLhRszyRIbdQuk3S7A6"/>
+</div>
+<div class="flex-grow flex flex-col justify-between space-y-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Handmade Leather Tote</h2>
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-secondary">
+<span>Seller: @amaka</span>
+<span class="flex items-center text-tertiary-container bg-tertiary-fixed px-2 py-0.5 rounded-full text-xs font-medium"><span class="material-symbols-outlined text-[14px] mr-1">star</span>4.9</span>
+<span class="flex items-center text-primary bg-primary-fixed px-2 py-0.5 rounded-full text-xs font-medium"><span class="material-symbols-outlined text-[14px] mr-1">verified</span>Verified</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/30">
+<div class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-bold">12,500 sats</div>
+<div class="font-body-sm text-body-sm text-secondary mt-1">≈ ₦18,200 NGN</div>
+</div>
+</div>
+</section>
+<!-- How payment works -->
+<section class="bg-surface-container-low rounded-2xl p-6 flex gap-4 items-start border border-primary/10">
+<div class="mt-1 flex-shrink-0"><span class="material-symbols-outlined text-primary text-3xl fill">shield</span></div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mb-1">Your money is locked safely</h3>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">When you pay, your sats are held in a secure 2-of-3 multisig escrow. The seller doesn't get paid until you confirm you've received the item exactly as described. You have 7 days to inspect the item upon delivery.</p>
+</div>
+</section>
+<!-- Delivery Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] space-y-5">
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-secondary">local_shipping</span>Delivery Details</h3>
+<div class="space-y-4">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2" for="address">Delivery Address</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded-lg p-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none placeholder-secondary/50" id="address" placeholder="Street address, city, state..." rows="3"></textarea>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2" for="phone">Phone for delivery updates</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary"><span class="material-symbols-outlined text-[20px]">call</span></span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-3 pl-10 pr-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder-secondary/50" id="phone" placeholder="+234 ..." type="tel"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Identity Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] border border-outline-variant/40 flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-fixed/30 to-transparent opacity-50 pointer-events-none"></div>
+<div class="bg-surface p-3 rounded-full shadow-sm mb-2 z-10 relative"><span class="material-symbols-outlined text-primary text-3xl">key</span></div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface z-10 relative">Create your identity</h3>
+<p class="font-body-sm text-body-sm text-secondary max-w-md z-10 relative">SafeSale uses decentralized Nostr keys to secure your transactions and chat without requiring a central account. We'll generate a secure key for you now.</p>
+<button class="mt-4 bg-surface-container-high hover:bg-surface-variant text-on-surface-variant font-label-md text-label-md py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow z-10 relative" type="button">
+<span class="material-symbols-outlined text-[20px]">vpn_key</span>Create a key &amp; continue
+</button>
+</section>
+</div>
+<!-- Right Column (Desktop Sidebar) -->
+<div class="hidden md:block md:col-span-4 sticky top-24 space-y-6">
+<section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]">
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-6">Order summary</h3>
+<div class="space-y-4 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex justify-between items-center"><span>Item subtotal</span><span class="font-medium text-on-surface">12,000 sats</span></div>
+<div class="flex justify-between items-center">
+<span class="flex items-center gap-1 cursor-help" title="Network fee for 2-of-3 multisig setup">Escrow fee <span class="material-symbols-outlined text-[16px] text-secondary">info</span></span>
+<span class="font-medium text-on-surface">500 sats</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex justify-between items-end">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Total to lock</span>
+<div class="text-right"><div class="font-headline-md text-headline-md font-bold text-primary">12,500 sats</div><div class="font-body-sm text-body-sm text-secondary mt-1">≈ ₦18,200 NGN</div></div>
+</div>
+<button class="w-full mt-8 bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-[0.98]" onclick="simulatePayment()">
+<span class="material-symbols-outlined fill">lock</span>Lock 12,500 sats in escrow
+</button>
+</section>
+<section class="px-2 space-y-4">
+<div class="flex items-center gap-3 text-secondary"><span class="material-symbols-outlined text-primary fill text-[20px]">check_circle</span><span class="font-label-sm text-label-sm">Held securely by SafeSale escrow</span></div>
+<div class="flex items-center gap-3 text-secondary"><span class="material-symbols-outlined text-primary fill text-[20px]">check_circle</span><span class="font-label-sm text-label-sm">Auto-releases to seller in 7 days</span></div>
+<div class="flex items-center gap-3 text-secondary"><span class="material-symbols-outlined text-primary fill text-[20px]">check_circle</span><span class="font-label-sm text-label-sm">Full refund guarantee if issue arises</span></div>
+</section>
+</div>
+</div>
+</main>
+<!-- Mobile Sticky Action -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-md border-t border-outline-variant/20 p-4 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98]" onclick="simulatePayment()">
+<span class="material-symbols-outlined fill">lock</span>Lock 12,500 sats
+</button>
+</div>
+<!-- Post-Pay Modal -->
+<div class="hidden fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 transition-opacity duration-300 opacity-0" id="payment-modal">
+<div class="bg-surface-container-lowest rounded-2xl p-8 max-w-sm w-full text-center shadow-xl transform scale-95 transition-transform duration-300" id="modal-content">
+<div class="flex flex-col items-center space-y-6" id="state-loading">
+<div class="relative w-20 h-20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[64px] animate-spin">progress_activity</span>
+<span class="material-symbols-outlined text-secondary text-[24px] absolute inset-0 m-auto flex items-center justify-center">lock</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-2" id="loading-text">Connecting to network...</h3>
+<p class="font-body-sm text-body-sm text-secondary">Please don't close this window.</p>
+</div>
+</div>
+<div class="hidden flex-col items-center space-y-6" id="state-success">
+<div class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-[48px] fill">check_circle</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-2">Done! Your sats are locked.</h3>
+<p class="font-body-sm text-body-sm text-secondary mb-6">The seller has been notified to ship your item. Your funds are secure in escrow.</p>
+</div>
+<button class="w-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md py-3 px-6 rounded-lg transition-colors" onclick="closeModal()">See my order</button>
+</div>
+</div>
+</div>
+<script>
+        const modal = document.getElementById('payment-modal');
+        const modalContent = document.getElementById('modal-content');
+        const stateLoading = document.getElementById('state-loading');
+        const stateSuccess = document.getElementById('state-success');
+        const loadingText = document.getElementById('loading-text');
+        function simulatePayment() {
+            stateLoading.classList.remove('hidden'); stateLoading.classList.add('flex');
+            stateSuccess.classList.add('hidden'); stateSuccess.classList.remove('flex');
+            loadingText.innerText = "Connecting to network...";
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); modalContent.classList.add('scale-100'); }, 10);
+            setTimeout(() => { loadingText.innerText = "Locking funds in escrow..."; }, 1500);
+            setTimeout(() => {
+                stateLoading.classList.add('hidden'); stateLoading.classList.remove('flex');
+                stateSuccess.classList.remove('hidden'); stateSuccess.classList.add('flex');
+            }, 3500);
+        }
+        function closeModal() {
+            modal.classList.add('opacity-0'); modalContent.classList.remove('scale-100'); modalContent.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+    </script>
+</body></html>

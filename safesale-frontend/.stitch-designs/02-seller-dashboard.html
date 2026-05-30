@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeSale Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#d3e4fe",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary-container": "#dad7ff",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary": "#3525cd",
+                        "on-tertiary-fixed": "#351000",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary": "#505f76",
+                        "tertiary-container": "#a44100",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "tertiary": "#7e3000",
+                        "surface-container-low": "#f1f3ff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "inverse-surface": "#293040",
+                        "surface-container-high": "#e1e8fd",
+                        "on-background": "#141b2b",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary-container": "#54647a",
+                        "outline": "#777587",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-variant": "#dce2f7",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d3daef",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#0f0069",
+                        "surface-tint": "#4d44e3",
+                        "surface-container": "#e9edff",
+                        "on-surface-variant": "#464555",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "primary-container": "#4f46e5",
+                        "outline-variant": "#c7c4d8",
+                        "surface-container-highest": "#dce2f7",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d0e1fb",
+                        "background": "#f9f9ff",
+                        "on-surface": "#141b2b",
+                        "on-secondary-fixed": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max-width": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dce2f7; border-radius: 10px; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.5); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<aside class="fixed h-screen w-64 left-0 top-0 bg-surface dark:bg-inverse-surface shadow-sm flex flex-col py-6 px-4 space-y-4 hidden md:flex">
+<div class="mb-8 px-2">
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">Seller Pro</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Marketplace Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 transition-all duration-200 scale-98 hover:bg-secondary-container/30" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-secondary-fixed-variant dark:text-secondary-fixed-dim font-medium hover:text-primary transition-colors duration-200 hover:bg-secondary-container/30" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-md font-label-md">Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-secondary-fixed-variant dark:text-secondary-fixed-dim font-medium hover:text-primary transition-colors duration-200 hover:bg-secondary-container/30" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-label-md font-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-secondary-fixed-variant dark:text-secondary-fixed-dim font-medium hover:text-primary transition-colors duration-200 hover:bg-secondary-container/30" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-label-md font-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-secondary-fixed-variant dark:text-secondary-fixed-dim font-medium hover:text-primary transition-colors duration-200 hover:bg-secondary-container/30" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+<button class="mt-auto bg-primary text-on-primary py-3 px-4 rounded-lg font-label-md transition-all active:scale-95 shadow-md">
+            View Storefront
+        </button>
+</aside>
+<main class="md:ml-64 min-h-screen">
+<header class="fixed top-0 right-0 left-0 md:left-64 h-16 bg-surface-bright/80 backdrop-blur-md shadow-sm z-40 flex justify-between items-center px-4 md:px-8">
+<div class="flex items-center gap-4">
+<h2 class="text-headline-sm font-headline-sm text-primary">Dashboard</h2>
+<div class="hidden sm:flex relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container border-none rounded-full py-2 pl-10 pr-4 text-body-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Search orders..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-surface-container rounded-full p-2 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="hover:bg-surface-container rounded-full p-2 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-secondary-container overflow-hidden ml-2 ring-2 ring-primary/10">
+<img alt="User Avatar" class="w-full h-full object-cover" src=""/>
+</div>
+</div>
+</header>
+<div class="pt-24 pb-12 px-4 md:px-8 max-w-container-max-width mx-auto space-y-8">
+<section class="rounded-2xl bg-primary text-on-primary p-8 shadow-md relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="relative z-10">
+<h3 class="text-headline-lg font-headline-lg">Welcome back, Amaka 👋</h3>
+<p class="text-body-md opacity-90 mt-1">You have 3 orders waiting to be shipped today.</p>
+</div>
+<div class="flex gap-4 relative z-10 w-full md:w-auto">
+<button class="flex-1 md:flex-none bg-surface-container-lowest text-primary px-6 py-3 rounded-lg font-label-md hover:shadow-lg transition-all active:scale-95">
+                        New listing
+                    </button>
+<button class="flex-1 md:flex-none border border-on-primary/30 text-on-primary px-6 py-3 rounded-lg font-label-md hover:bg-white/10 transition-all active:scale-95">
+                        Copy shop link
+                    </button>
+</div>
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-outline-variant/30 transition-transform hover:translate-y-[-2px]">
+<p class="text-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lock</span> Locked in Escrow
+                    </p>
+<div class="mt-2 flex items-baseline justify-between">
+<span class="text-headline-md font-headline-md text-on-background">₦1,240,500</span>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-outline-variant/30 transition-transform hover:translate-y-[-2px]">
+<p class="text-label-md text-on-surface-variant">Paid out this week</p>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-headline-md font-headline-md text-on-background">₦315,000</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] px-2 py-1 rounded-full font-bold">+12%</span>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-outline-variant/30 transition-transform hover:translate-y-[-2px]">
+<p class="text-label-md text-on-surface-variant">Orders to ship</p>
+<div class="mt-2 flex items-baseline justify-between">
+<span class="text-headline-md font-headline-md text-on-background">3</span>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.1)] border border-outline-variant/30 transition-transform hover:translate-y-[-2px]">
+<p class="text-label-md text-on-surface-variant">Active listings</p>
+<div class="mt-2 flex items-baseline justify-between">
+<span class="text-headline-md font-headline-md text-on-background">42</span>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<section class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-headline-sm font-headline-sm text-on-background">Needs Your Attention</h4>
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-sm">3 Critical</span>
+</div>
+<div class="bg-surface rounded-2xl overflow-hidden shadow-sm border border-outline-variant/20">
+<div class="divide-y divide-outline-variant/20">
+<div class="p-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="flex-1">
+<h5 class="text-label-md font-bold">Ship iPhone 15 Pro to Tunde</h5>
+<p class="text-body-sm text-on-surface-variant">₦450,000 • Ordered 6h ago</p>
+</div>
+<button class="text-primary font-label-md hover:underline">Print Label</button>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="flex-1">
+<h5 class="text-label-md font-bold">Ship Vintage Denim Jacket to Chidinma</h5>
+<p class="text-body-sm text-on-surface-variant">₦28,500 • Ordered 1d ago</p>
+</div>
+<button class="text-primary font-label-md hover:underline">Print Label</button>
+</div>
+<div class="p-4 flex items-center gap-4 hover:bg-surface-container-low transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-error-container/20 flex items-center justify-center text-error group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<div class="flex-1">
+<h5 class="text-label-md font-bold">Dispute: Nike Air Force 1 (Bayo)</h5>
+<p class="text-body-sm text-error font-medium">Resolution needed by 24h • ₦42,000</p>
+</div>
+<button class="bg-error text-on-error px-4 py-2 rounded-lg text-label-sm font-bold shadow-sm">Review Case</button>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-headline-sm font-headline-sm text-on-background">Top Listings</h4>
+<button class="text-primary text-label-md font-bold hover:underline">See all</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" src=""/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<p class="text-label-md font-bold truncate">Premium Wireless Headset</p>
+<p class="text-body-sm text-on-surface-variant">₦125,000</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" src=""/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<p class="text-label-md font-bold truncate">Speed Run X22</p>
+<p class="text-body-sm text-on-surface-variant">₦45,000</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" src=""/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<p class="text-label-md font-bold truncate">Studio Monitor Pro</p>
+<p class="text-body-sm text-on-surface-variant">₦82,000</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" src=""/>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<p class="text-label-md font-bold truncate">Cloud Walkers V3</p>
+<p class="text-body-sm text-on-surface-variant">₦31,000</p>
+</div>
+</div>
+</section>
+</div>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="text-headline-sm font-headline-sm text-on-background">Recent Transactions</h4>
+<button class="text-on-surface-variant text-label-md hover:text-primary transition-colors flex items-center gap-1">
+                        View History <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface rounded-2xl overflow-x-auto shadow-sm border border-outline-variant/20">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/20">
+<th class="px-6 py-4 text-label-sm text-on-surface-variant uppercase tracking-wider">Transaction ID</th>
+<th class="px-6 py-4 text-label-sm text-on-surface-variant uppercase tracking-wider">Customer</th>
+<th class="px-6 py-4 text-label-sm text-on-surface-variant uppercase tracking-wider">Amount</th>
+<th class="px-6 py-4 text-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-label-sm text-on-surface-variant uppercase tracking-wider">Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-label-md text-primary">#SF-9042</td>
+<td class="px-6 py-4 text-body-sm">Daniel Okafor</td>
+<td class="px-6 py-4 font-bold">₦12,500</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-1 rounded-md text-[11px] font-bold">LOCKED</span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">Today, 10:45 AM</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-label-md text-primary">#SF-9041</td>
+<td class="px-6 py-4 text-body-sm">Sarah Peters</td>
+<td class="px-6 py-4 font-bold">₦45,000</td>
+<td class="px-6 py-4">
+<span class="bg-primary-container text-on-primary-container px-2 py-1 rounded-md text-[11px] font-bold">SHIPPED</span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">Yesterday</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-label-md text-primary">#SF-9039</td>
+<td class="px-6 py-4 text-body-sm">Ibrahim Musa</td>
+<td class="px-6 py-4 font-bold">₦22,000</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded-md text-[11px] font-bold">DELIVERED</span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">2 days ago</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-label-md text-primary">#SF-9038</td>
+<td class="px-6 py-4 text-body-sm">Kemi Adebayo</td>
+<td class="px-6 py-4 font-bold">₦120,000</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-1 rounded-md text-[11px] font-bold">LOCKED</span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">2 days ago</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-label-md text-primary">#SF-9037</td>
+<td class="px-6 py-4 text-body-sm">Chijioke V.</td>
+<td class="px-6 py-4 font-bold">₦8,500</td>
+<td class="px-6 py-4">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded-md text-[11px] font-bold">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-body-sm text-on-surface-variant">3 days ago</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-center md:items-start">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0.5;">star_half</span>
+<span class="ml-2 font-headline-md text-on-background">4.9</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Based on 312 verified customer reviews</p>
+</div>
+<div class="h-12 w-[1px] bg-outline-variant/30 hidden md:block"></div>
+<div class="hidden sm:block">
+<p class="text-label-md font-bold text-on-background">Top 1% Seller</p>
+<p class="text-body-sm text-on-surface-variant">Reliable shipping badge earned</p>
+</div>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant px-6 py-3 rounded-xl font-label-md transition-all flex items-center gap-2 border border-outline-variant/20">
+<span class="material-symbols-outlined text-base">share</span>
+                    Share Seller Profile
+                </button>
+</section>
+</div>
+</main>
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-[0_-1px_3px_0_rgba(0,0,0,0.1)] flex justify-around items-center h-16 z-50">
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px]">Listings</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[10px]">Orders</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px]">Earnings</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Settings</span>
+</a>
+</nav>
+<button class="fixed bottom-24 right-6 md:bottom-12 md:right-12 h-14 w-14 rounded-2xl bg-primary text-on-primary shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-50 group">
+<span class="material-symbols-outlined">add</span>
+<span class="absolute right-16 bg-on-background text-surface text-label-sm px-3 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">New Listing</span>
+</button>
+</body></html>

@@ -1,0 +1,241 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* SafeSale brand tokens */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-soft-foreground: var(--brand-soft-foreground);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.4s ease-out;
+  --animate-slide-up: slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-lock-pulse: lock-pulse 2.4s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.2s linear infinite;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lock-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 28%, transparent); }
+    50% { box-shadow: 0 0 0 12px color-mix(in oklab, var(--brand) 0%, transparent); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) { padding-inline: 2rem; }
+  @media (width >= 1400px) { max-width: 1320px; }
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* SafeSale palette - warm, calm, trustworthy */
+  --background: hsl(36 33% 97%);         /* warm off-white */
+  --foreground: hsl(220 18% 14%);        /* charcoal, not pure black */
+
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 18% 14%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 18% 14%);
+
+  --primary: hsl(158 64% 32%);           /* deep emerald */
+  --primary-foreground: hsl(150 30% 98%);
+
+  --secondary: hsl(36 28% 94%);
+  --secondary-foreground: hsl(220 18% 18%);
+
+  --muted: hsl(36 22% 95%);
+  --muted-foreground: hsl(220 9% 46%);
+
+  --accent: hsl(150 38% 94%);
+  --accent-foreground: hsl(158 64% 22%);
+
+  --destructive: hsl(0 72% 50%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --border: hsl(35 18% 90%);
+  --input: hsl(35 18% 88%);
+  --ring: hsl(158 64% 38%);
+
+  /* brand tokens */
+  --brand: hsl(158 64% 32%);
+  --brand-foreground: hsl(150 30% 98%);
+  --brand-soft: hsl(150 50% 95%);
+  --brand-soft-foreground: hsl(158 64% 22%);
+  --gold: hsl(38 92% 50%);
+  --gold-soft: hsl(43 95% 94%);
+  --ink: hsl(220 25% 12%);
+  --ink-soft: hsl(220 14% 36%);
+  --surface: hsl(36 33% 97%);
+  --surface-2: hsl(36 28% 94%);
+  --line: hsl(35 18% 90%);
+
+  --chart-1: hsl(158 64% 32%);
+  --chart-2: hsl(170 50% 45%);
+  --chart-3: hsl(38 92% 50%);
+  --chart-4: hsl(220 30% 30%);
+  --chart-5: hsl(12 60% 55%);
+
+  --sidebar: hsl(36 33% 97%);
+  --sidebar-foreground: hsl(220 18% 14%);
+  --sidebar-primary: hsl(158 64% 32%);
+  --sidebar-primary-foreground: hsl(150 30% 98%);
+  --sidebar-accent: hsl(36 28% 94%);
+  --sidebar-accent-foreground: hsl(220 18% 14%);
+  --sidebar-border: hsl(35 18% 90%);
+  --sidebar-ring: hsl(158 64% 38%);
+}
+
+/* SafeSale is light-mode only. Keep .dark as alias of root to ignore any dark toggles. */
+.dark {
+  --background: hsl(36 33% 97%);
+  --foreground: hsl(220 18% 14%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 18% 14%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 18% 14%);
+  --primary: hsl(158 64% 32%);
+  --primary-foreground: hsl(150 30% 98%);
+  --secondary: hsl(36 28% 94%);
+  --secondary-foreground: hsl(220 18% 18%);
+  --muted: hsl(36 22% 95%);
+  --muted-foreground: hsl(220 9% 46%);
+  --accent: hsl(150 38% 94%);
+  --accent-foreground: hsl(158 64% 22%);
+  --destructive: hsl(0 72% 50%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(35 18% 90%);
+  --input: hsl(35 18% 88%);
+  --ring: hsl(158 64% 38%);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentcolor);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5 {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Utility: thin scrollbar */
+@utility scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+/* Utility: shimmer background */
+@utility bg-shimmer {
+  background-image: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in oklab, white 60%, transparent) 50%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.2s linear infinite;
+}
+
+/* iOS safe area helpers */
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+@utility pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}

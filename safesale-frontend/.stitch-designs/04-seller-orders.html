@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeSale Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#dce2f7",
+                        "outline": "#777587",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary": "#3525cd",
+                        "surface-variant": "#dce2f7",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-tint": "#4d44e3",
+                        "surface-dim": "#d3daef",
+                        "primary-container": "#4f46e5",
+                        "surface-container-high": "#e1e8fd",
+                        "on-secondary-fixed": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdbcc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "surface-container": "#e9edff",
+                        "on-primary-container": "#dad7ff",
+                        "surface-container-low": "#f1f3ff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-bright": "#f9f9ff",
+                        "primary-fixed": "#e2dfff",
+                        "secondary-container": "#d0e1fb",
+                        "on-background": "#141b2b",
+                        "on-tertiary-container": "#ffd2be",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#464555",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#a44100",
+                        "on-tertiary-fixed": "#351000",
+                        "tertiary": "#7e3000",
+                        "secondary": "#505f76",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#141b2b",
+                        "on-primary-fixed": "#0f0069",
+                        "surface": "#f9f9ff",
+                        "inverse-surface": "#293040",
+                        "outline-variant": "#c7c4d8",
+                        "background": "#f9f9ff",
+                        "secondary-fixed-dim": "#b7c8e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "container-max-width": "1280px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .status-pill-amber { @apply bg-amber-100 text-amber-800 px-3 py-1 rounded-full font-label-sm text-label-sm; }
+        .status-pill-sky { @apply bg-sky-100 text-sky-800 px-3 py-1 rounded-full font-label-sm text-label-sm; }
+        .status-pill-brand { @apply bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm; }
+        .status-pill-rose { @apply bg-rose-100 text-rose-800 px-3 py-1 rounded-full font-label-sm text-label-sm; }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -8px;
+            width: 2px;
+            @apply bg-outline-variant;
+        }
+        .timeline-item:last-child .timeline-line::before { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen">
+<!-- Sidebar Navigation Shell -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-64 p-4 border-r border-outline-variant bg-surface-container-low z-50">
+<div class="mb-8 px-4">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">SafeSale</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Verified Merchant</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-bold scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Payouts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-surface-container rounded-xl flex items-center gap-3">
+<img alt="Store Logo" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a business owner in a modern corporate setting with soft bokeh background and warm professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvb-V3yezHyKKz5EuQhYKKTQWvvPsACJVnwJfJxCAYgQ9Nsel9q9nML-xjRcY0H7j_66Es3plQqOKBOIkfZpkDzi__ho_05IPrnYUtE8asX_Y_rVq1Z1J0ra8LZFfCwuqAWBHj5kLon83FvRNY6jxtSjduB2MB0Za2iDdXbhzZpYVPlyPNTjQV56D3TJu8dmklGxIugcN56Xo3SESuq4DkIOvfeDpEFsqMNVUmM-wxwudeL9Z6bQrdp0XeH2M_4B-R1A78_qmhGxCi"/>
+<div>
+<p class="font-label-md text-label-md">Storefront</p>
+<p class="text-[12px] text-on-surface-variant">ID: SS-9921</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 p-4 md:p-margin-desktop max-w-container-max-width mx-auto">
+<!-- PAGE 1: SELLER ORDERS LIST -->
+<section id="orders-list">
+<header class="mb-8">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Orders</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Manage and track your customer transactions</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md shadow-sm hover:shadow-lg transition-all">
+                        New Listing
+                    </button>
+</div>
+<!-- Attention Strip -->
+<div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center gap-4 shadow-sm">
+<div class="bg-amber-100 p-2 rounded-full text-amber-800">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-amber-900">Needs your attention</h4>
+<p class="text-body-sm text-amber-800">1 order is currently payment locked. Action required to release funds.</p>
+</div>
+<button class="text-amber-900 font-label-md text-label-md underline">View Order</button>
+</div>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-2 mb-8">
+<button class="px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md">All (6)</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">To ship (1)</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Shipped (1)</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Completed (1)</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Disputed (1)</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-colors">Refunded (1)</button>
+</div>
+</header>
+<!-- Desktop Table -->
+<div class="hidden md:block bg-surface-container-lowest rounded-2xl shadow-1 overflow-hidden border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Order</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Buyer</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Amount</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Updated</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Order Row 1 (Locked) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<img alt="Headphones" class="w-12 h-12 rounded-xl object-cover shadow-sm" data-alt="Close up product photography of high-end over-ear noise-cancelling headphones in a minimalist studio setting with soft natural light and premium matte textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPb4EXQdYbg94exsARK4qaerFvYmbNN-tekx5P--ysQ4EP8WFZhGnbQ14vg8HunJmmWSHdCriJGkhSj_PhggAuHHxOeKS4NQM6fTpgkLD2bfadl29HaHysY9FBBw0nRYYAcHBw4RSqlO0vwCDdMPPjEl-tgsmcQBjiSGkYIz0LYgXowaru3tkw7a1Dt2cSbOiaHFqtrMaWs42rBcFQBhER9Q3-4_iz7YobNXz3N6t2TroSt-Z3yIsIR6l8o6ZSAASIK4JJVV8iRRd4"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Pro Wireless Headphones</p>
+<p class="text-body-sm text-on-surface-variant">ORD-7K3M</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<p class="font-body-md text-body-md">Chidi Okoro</p>
+<p class="text-body-sm text-on-surface-variant">Lagos, NG</p>
+</td>
+<td class="px-6 py-6">
+<p class="font-label-md text-label-md">₦125,000</p>
+<p class="text-[12px] text-on-surface-variant">0.0024 BTC</p>
+</td>
+<td class="px-6 py-6">
+<span class="status-pill-amber">To Ship</span>
+</td>
+<td class="px-6 py-6 text-right">
+<p class="text-body-sm text-on-surface-variant">2h ago</p>
+</td>
+</tr>
+<!-- Order Row 2 (Shipped) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<img alt="Watch" class="w-12 h-12 rounded-xl object-cover shadow-sm" data-alt="Minimalist wrist watch with a clean white face and brown leather strap on a light marble surface with soft shadows and elegant luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKRtKvtNMz6bcrHD6OX4ZKm6rR4oNAyaZzqyZZJpNwy4sRARVi2DnySPHGYS-84gOILEL4pEbEAVY9fUIxpg2uBEKxMt5Joid2xRiIVwMnTMOcLn7EndP17UgFWsWJTqOekMGWyoW5YuY8-deoLBU72bBFLmS4rQRXJ7k9MMdog6YAh74UOHijV985m4rXYCvBia12oZAY6_uayQjHc084H_k-dZFaqVqWmxNO0TutSGNkErH7kledjDFyYAn3xUD89f4S8IRFxINT"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Minimalist Watch</p>
+<p class="text-body-sm text-on-surface-variant">ORD-2P9L</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<p class="font-body-md text-body-md">Sarah Williams</p>
+<p class="text-body-sm text-on-surface-variant">Abuja, NG</p>
+</td>
+<td class="px-6 py-6">
+<p class="font-label-md text-label-md">₦45,000</p>
+<p class="text-[12px] text-on-surface-variant">0.0008 BTC</p>
+</td>
+<td class="px-6 py-6">
+<span class="status-pill-sky">Shipped</span>
+</td>
+<td class="px-6 py-6 text-right">
+<p class="text-body-sm text-on-surface-variant">1d ago</p>
+</td>
+</tr>
+<!-- Order Row 3 (Completed) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<img alt="Camera" class="w-12 h-12 rounded-xl object-cover shadow-sm" data-alt="A vintage style modern mirrorless camera in black with a prime lens sitting on a dark wooden desk with professional studio lighting and clean composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx2pw2chYmegLx3KrjJ1ucPZCh-jkFw3MUL8mAFqqcmf2Fe74GfQKGUqN5kAS1wM54h7cmU7Ds8zTP8NgK2VpeA44VwdjLL2bYe8PKmi2wqjvSNki25wVksWiiXTTn3TiHB_8viayPQmMyYmbZvHYJOkhNCN3OTjF2NufyoVa11o2dTlZyYDNzzj0n2YxXPyWQ2Mr6bPJQdTkdvYrbrCkRQHccx_pf9fyYdj1N97sFw-iMJNiTTUxqb7pvuLRsYL2wtvBG6sw0grc1"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Retro Camera 2.0</p>
+<p class="text-body-sm text-on-surface-variant">ORD-4X1V</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6">
+<p class="font-body-md text-body-md">Emeka Jones</p>
+<p class="text-body-sm text-on-surface-variant">Port Harcourt, NG</p>
+</td>
+<td class="px-6 py-6">
+<p class="font-label-md text-label-md">₦280,000</p>
+<p class="text-[12px] text-on-surface-variant">0.0051 BTC</p>
+</td>
+<td class="px-6 py-6">
+<span class="status-pill-brand">Completed</span>
+</td>
+<td class="px-6 py-6 text-right">
+<p class="text-body-sm text-on-surface-variant">3d ago</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Mobile View: Cards -->
+<div class="md:hidden space-y-4">
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-outline-variant">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<img alt="Headphones" class="w-12 h-12 rounded-xl object-cover shadow-sm" data-alt="Close up product photography of high-end over-ear noise-cancelling headphones in a minimalist studio setting with soft natural light and premium matte textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6nUb_hy2s6YZQyt_Qj15RKomTqvBlJgb_SA7Mj-ryBkCqI5R2Kj20p0pwVErwaa8UKnmTMG4iB0wwRPZHEmTLh1iWJVvT8E-oPLg2l9XFQd219xQaBVM04AyPjWo7FVpmb4CFGJOaqh5rUIyCGsozmUMCdoiTnaQGHNfWGicjPMdQcEPBA1WTcHlJ6B92S3DWlVwOmXdmis23NmMKfII6yBpAdzNgjSHGlP3QnPQMOxj432YB63grF1aYnxCZzjArvSwMw-mgr57e"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Wireless Headphones</p>
+<p class="text-body-sm text-on-surface-variant">ORD-7K3M</p>
+</div>
+</div>
+<span class="status-pill-amber">To Ship</span>
+</div>
+<div class="flex justify-between py-2 border-t border-outline-variant">
+<span class="text-body-sm text-on-surface-variant">Buyer</span>
+<span class="font-label-md text-label-md">Chidi Okoro</span>
+</div>
+<div class="flex justify-between py-2">
+<span class="text-body-sm text-on-surface-variant">Amount</span>
+<span class="font-label-md text-label-md">₦125,000</span>
+</div>
+</div>
+<!-- ... other mobile cards ... -->
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="my-20 border-t-4 border-dashed border-outline-variant opacity-30"></div>
+<!-- PAGE 2: SELLER ORDER DETAIL (ORD-7K3M) -->
+<section id="order-detail">
+<header class="mb-8">
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md mb-4 hover:gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+                    Back to Orders
+                </a>
+<div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Order ORD-7K3M</h2>
+<span class="status-pill-amber">Payment Locked</span>
+</div>
+<p class="text-on-surface-variant font-body-md text-body-md">Placed on Oct 24, 2023 at 2:45 PM</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 rounded-lg border border-outline text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors">Contact Buyer</button>
+<button class="px-6 py-2 rounded-lg border border-rose-200 text-rose-700 bg-rose-50 font-label-md text-label-md hover:bg-rose-100 transition-colors">Raise Dispute</button>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Main Content (Left 2 Columns) -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Hero Ship Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant">
+<div class="flex items-center gap-3 mb-6">
+<div class="bg-primary-container/10 p-2 rounded-full text-primary">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Ship this order</h3>
+</div>
+<p class="text-on-surface-variant mb-6 font-body-md text-body-md">Buyer has paid into escrow. Ship the item and provide tracking details to unlock payment release.</p>
+<form class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Carrier</label>
+<select class="w-full rounded-lg border-outline-variant focus:ring-primary focus:border-primary">
+<option>DHL Express</option>
+<option>FedEx</option>
+<option>GIG Logistics</option>
+<option>Other</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Tracking Number</label>
+<input class="w-full rounded-lg border-outline-variant focus:ring-primary focus:border-primary" placeholder="e.g. DHL-9981-22" type="text"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all" type="button">
+                                    Mark as shipped
+                                </button>
+<p class="text-center text-[12px] text-on-surface-variant mt-3 italic">Funds will be released once buyer confirms receipt or 48 hours after delivery.</p>
+</div>
+</form>
+</div>
+<!-- Order Summary -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-6">Order Summary</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<img alt="Product" class="w-16 h-16 rounded-xl object-cover" data-alt="Macro close up of the sleek design of premium over-ear headphones, emphasizing the matte finish and plush leather ear pads under professional studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4A6b_GcIQ7JqWNa7Ehcg6kBM7i3vS2lYGhE6gvTCtJWKXJ05OH6hg7VSo3NopcLkiNlOcpwObF9hj1E0J8LZKceIMLmVICr2raLaWOAmr-ZLF-By638SodTf2xSAN5y3e3IoX6UIK3rXqcYBnTpKjidhPSeAH7qd9Ulhd4zKiOBAuOpTey1NtfEbYf3O1qXC9Qe_-SGoICbJLaPKVpsEC21h5QktFKeVlDuKWrzCxd6LiiNPWamqGDY3fKCjTujjvXRjo9xTgU0U6"/>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Pro Wireless Headphones v2</p>
+<p class="text-body-sm text-on-surface-variant">Category: Electronics • Condition: New</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md">₦125,000</p>
+<p class="text-body-sm text-on-surface-variant">1 Unit</p>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Subtotal</span>
+<span>₦125,000</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">Shipping Fee</span>
+<span>₦4,500</span>
+</div>
+<div class="flex justify-between text-body-md">
+<span class="text-on-surface-variant">SafeSale Fee (1.5%)</span>
+<span class="text-rose-600">- ₦1,875</span>
+</div>
+<div class="flex justify-between pt-4">
+<span class="font-headline-md text-headline-md">Total Payout</span>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">₦127,625</p>
+<p class="font-label-md text-label-md text-on-surface-variant">~ 0.00244 BTC</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar (Right Column) -->
+<div class="space-y-6">
+<!-- Buyer Info -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-6">Ship To Info</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Chidi Okoro</p>
+<p class="text-[12px] text-on-surface-variant">Member since 2021</p>
+</div>
+</div>
+<div class="space-y-3">
+<a class="flex items-center gap-2 text-primary font-body-md" href="tel:+2348012345678">
+<span class="material-symbols-outlined text-[18px]" data-icon="call">call</span>
+                                    +234 801 234 5678
+                                </a>
+<div class="flex items-start gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] mt-1" data-icon="location_on">location_on</span>
+<p class="text-body-sm">
+                                        Plot 12, Admiralty Way,<br/>
+                                        Lekki Phase 1, Lagos State<br/>
+                                        101222, Nigeria
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Activity Timeline -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-6">Activity Timeline</h3>
+<div class="space-y-8 relative">
+<!-- Step 1: Placed -->
+<div class="timeline-item timeline-line relative flex gap-4">
+<div class="z-10 bg-primary text-on-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Order placed</p>
+<p class="text-body-sm text-on-surface-variant">Oct 24, 14:45</p>
+</div>
+</div>
+<!-- Step 2: Payment Received -->
+<div class="timeline-item timeline-line relative flex gap-4">
+<div class="z-10 bg-primary text-on-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Payment received (Escrow)</p>
+<p class="text-body-sm text-on-surface-variant">Oct 24, 15:02</p>
+</div>
+</div>
+<!-- Step 3: Pending Shipping -->
+<div class="timeline-item timeline-line relative flex gap-4">
+<div class="z-10 bg-surface-container-highest text-on-surface-variant border-2 border-outline-variant rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
+<div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md">Awaiting shipment</p>
+<p class="text-body-sm text-on-surface-variant">Action required</p>
+</div>
+</div>
+<!-- Step 4: Payout (Upcoming) -->
+<div class="timeline-item relative flex gap-4 opacity-40">
+<div class="z-10 bg-surface-container-highest text-on-surface-variant rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]" data-icon="payments">payments</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Payment released</p>
+<p class="text-body-sm text-on-surface-variant">Pending delivery</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- STATE VARIANTS (HIDDEN) -->
+<!--
+        <div id="states-library" class="hidden">
+            <!-- Empty State Fragment -->
+<div class="flex flex-col items-center justify-center py-20 text-center" id="empty-orders">
+<div class="bg-surface-container p-6 rounded-full mb-6">
+<span class="material-symbols-outlined text-[48px] text-outline" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">No orders yet</h3>
+<p class="text-on-surface-variant max-w-sm mb-6">Once customers start purchasing your products, they will appear here for processing.</p>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md">Explore Marketplace</button>
+</div>
+<!-- Loading State Fragment -->
+<div class="flex items-center justify-center py-40" id="loading-state">
+<div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+</div>
+<!-- Dispute Active State Fragment -->
+<div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl flex items-center gap-3" id="dispute-alert">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<p class="font-label-md">This order is under review by a moderator. Funds are suspended.</p>
+</div>
+
+        --&gt;
+    </main>
+<!-- Mobile Bottom Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex justify-around items-center h-16 px-4 z-50">
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="text-[10px] font-label-sm font-bold">Orders</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="text-[10px] font-label-sm">Sell</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-[10px] font-label-sm">Products</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-[10px] font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mousedown', () => row.classList.add('scale-[0.995]'));
+            row.addEventListener('mouseup', () => row.classList.remove('scale-[0.995]'));
+        });
+
+        // Tab switching simulation (UX only)
+        const filterChips = document.querySelectorAll('#orders-list button.rounded-full');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => {
+                    c.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    c.classList.add('bg-surface-container-highest', 'text-on-surface-variant');
+                });
+                chip.classList.remove('bg-surface-container-highest', 'text-on-surface-variant');
+                chip.classList.add('bg-primary-container', 'text-on-primary-container');
+            });
+        });
+    </script>
+</body></html>

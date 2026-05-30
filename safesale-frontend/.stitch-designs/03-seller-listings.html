@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SellerHub — SafeSale Manage Listings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#d0e1fb",
+                        "surface-container-high": "#e1e8fd",
+                        "inverse-surface": "#293040",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-primary": "#c3c0ff",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#7e3000",
+                        "on-tertiary-fixed": "#351000",
+                        "primary-fixed": "#e2dfff",
+                        "outline-variant": "#c7c4d8",
+                        "secondary": "#505f76",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#141b2b",
+                        "background": "#f9f9ff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-container": "#4f46e5",
+                        "surface-dim": "#d3daef",
+                        "on-primary-fixed": "#0f0069",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#dad7ff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#a44100",
+                        "surface-container-highest": "#dce2f7",
+                        "on-surface-variant": "#464555",
+                        "on-background": "#141b2b",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#dce2f7",
+                        "surface-bright": "#f9f9ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffd2be",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-low": "#f1f3ff",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "surface-tint": "#4d44e3",
+                        "surface-container": "#e9edff",
+                        "on-error": "#ffffff",
+                        "primary": "#3525cd",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-error-container": "#93000a",
+                        "surface": "#f9f9ff",
+                        "outline": "#777587",
+                        "brand-emerald": "#10b981"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max-width": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9ff; }
+        .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); }
+        .card-shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); }
+        .card-shadow-hover:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface shadow-sm px-gutter h-16 flex justify-between items-center max-w-container-max-width mx-auto">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">SellerHub</span>
+<nav class="hidden md:flex gap-6 ml-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Inventory</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Orders</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container rounded-full">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container rounded-full">settings</span>
+<img alt="Seller Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a smiling male merchant in a clean, modern studio setting. The lighting is bright and optimistic, reflecting a high-trust professional environment. He wears a neutral linen shirt against a soft, light-mode background with subtle warm tones, consistent with a modern fintech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOS36hZ3Jvxjb5oZqB_LoWo8rzdSUUEUbTDcMQGZ7CsAc0kAwbyD8X5w_t0ufRAa9o5YESn88Ui4FbB7m96-lJEHipdkm2QBnKubtNyrmChapTJ6JzBhpvdLC-HRDyc3lMM7l6lorC6r5Kk5sQmAKrFDuiDDCWARDnQyTB2BO3xvCgbwMUdgH4MW7HN7ADVauo6yM8Kxu_TZGRyk-wXh_pZvqMgFCTYhpVjmYLMWeJit9pBSSxxdOWyo3IdGVCc1Uxj2vCYx-ovNep"/>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 p-4 border-r border-outline-variant bg-surface-container-low">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Verified Merchant</p>
+<p class="text-xs text-on-surface-variant">Pro Seller</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#"><span class="material-symbols-outlined">home</span>Home</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg font-medium" href="#"><span class="material-symbols-outlined">inventory_2</span>My Listings</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#"><span class="material-symbols-outlined">payments</span>Sales</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#"><span class="material-symbols-outlined">chat_bubble</span>Messages</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" href="#"><span class="material-symbols-outlined">help_center</span>Support</a>
+</nav>
+<button class="mt-4 w-full bg-primary text-on-primary py-2.5 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity" onclick="toggleSheet()">Create Listing</button>
+<div class="mt-auto border-t border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-error hover:bg-error-container rounded-lg transition-all" href="#"><span class="material-symbols-outlined">logout</span>Logout</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 mt-16 p-4 md:p-8 min-h-screen max-w-container-max-width mx-auto pb-24 lg:pb-8">
+<!-- Header Action Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Manage Listings</h1>
+<button class="h-9 px-4 bg-brand-emerald text-white rounded-lg flex items-center gap-2 hover:brightness-95 transition-all font-label-md text-label-md self-start md:self-auto" onclick="toggleSheet()">
+<span class="material-symbols-outlined text-sm">add</span>
+                + New listing
+            </button>
+</div>
+<!-- Snapshot Strip -->
+<section class="bg-white rounded-2xl p-6 mb-8 card-shadow flex flex-wrap items-center justify-between gap-6">
+<div class="flex-1 min-w-[120px] text-center md:text-left">
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider mb-1">Total Listings</p>
+<p class="text-3xl font-bold">4</p>
+</div>
+<div class="hidden md:block w-px h-12 bg-outline-variant"></div>
+<div class="flex-1 min-w-[120px] text-center md:text-left">
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider mb-1">Available</p>
+<p class="text-3xl font-bold text-brand-emerald">3</p>
+</div>
+<div class="hidden md:block w-px h-12 bg-outline-variant"></div>
+<div class="flex-1 min-w-[120px] text-center md:text-left">
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider mb-1">Out of Stock</p>
+<p class="text-3xl font-bold text-amber-500">1</p>
+</div>
+</section>
+<!-- Search & Filters -->
+<div class="flex flex-col md:flex-row gap-4 mb-8">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary bg-white transition-all outline-none" placeholder="Search your inventory..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+<button class="px-5 py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md whitespace-nowrap">All</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-outline-variant transition-colors font-label-md text-label-md whitespace-nowrap">Available</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-outline-variant transition-colors font-label-md text-label-md whitespace-nowrap">Out of stock</button>
+</div>
+</div>
+<!-- Listing Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-white rounded-2xl overflow-hidden card-shadow card-shadow-hover transition-all flex flex-col group">
+<div class="relative aspect-square">
+<img class="w-full h-full object-cover" data-alt="A detailed close-up of a high-quality vintage denim jacket from Ralph Lauren resting on a minimalist wooden chair. The lighting is soft and natural, emphasizing the texture of the fabric and the quality of the stitching. The scene is bright and airy, capturing a clean, curated marketplace feel with a modern trust aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe2y9OeMmAAZy5CsjTukoJ7sPvXor5ObGNzUl774D1X1H7Hrym8fYuEAwM2COhEk6qSsNVmYBYnIWzEbRHSUpO_diKJlPxbZDbgnN5EErsf4APEYK0xIjYDS-Ra-oFu-zUEQVUCtpFzPp_v1UBSlSPpcxUZQS0ON6Ls6s7tSH7OF1ZoYJiDwxw9HaQDgBUO1baRI7IkMN5sJS6vxf-3NsDpW_XSmoJHLR3Ex3deTF5t_fv-npumEw0Kq5JqYPRr3ygcwO1JxdjVNqX"/>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-primary px-2 py-1 rounded-lg text-xs font-bold">+2 Photos</span>
+<div class="absolute top-3 left-3 bg-brand-emerald text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight">In stock</div>
+</div>
+<div class="p-5 flex-1">
+<h3 class="font-headline-md text-headline-md mb-1 text-on-surface group-hover:text-primary transition-colors">Vintage Denim Jacket — Ralph Lauren</h3>
+<p class="text-2xl font-bold text-on-surface mb-3">₦28,500</p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mb-4">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        2h ago
+                    </div>
+</div>
+<div class="px-5 py-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-low/30">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" title="Copy Link">content_copy</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" title="Edit">edit</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-2xl overflow-hidden card-shadow card-shadow-hover transition-all flex flex-col group">
+<div class="relative aspect-square">
+<img class="w-full h-full object-cover" data-alt="A pristine pair of Nike Air Force 1 White sneakers photographed in a high-key studio environment. The shoes are set against a clean, light grey background with soft, diffused shadows that highlight their clean lines. The overall mood is professional, fresh, and trustworthy, perfectly aligning with a premium digital marketplace style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv47E_uof5yMaFdtuWXAHKDmuzlwLy6nSwZswu2NP-b7zzTcbTmtc14_MC-aYzLMJVBB77wsrSid0mGVd6YRM-GdNVC1wbnQeQWbLcZdTaSK_-bLPVFYqvcSjc67LaFb4nCEZH1tPnBV1wuHzAzJYoYI_ROQTBhMyVbcHA7ygwpp6K3z3zD2krLBbABX1m_MgOW-6CrV0v329ZYSFeDWqY7Zh6MBW56cQ4DGNT317DuUYVz781eppBsW7WeAot7JJvmHFjX2u6FESm"/>
+<div class="absolute top-3 left-3 bg-brand-emerald text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight">In stock</div>
+</div>
+<div class="p-5 flex-1">
+<h3 class="font-headline-md text-headline-md mb-1 text-on-surface group-hover:text-primary transition-colors">Nike Air Force 1 '07 — White, UK 9</h3>
+<p class="text-2xl font-bold text-on-surface mb-3">₦42,000</p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mb-4">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        1 day ago
+                    </div>
+</div>
+<div class="px-5 py-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-low/30">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">content_copy</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">edit</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-2xl overflow-hidden card-shadow card-shadow-hover transition-all flex flex-col group relative opacity-80">
+<div class="absolute top-4 left-0 z-10 bg-amber-500 text-white px-4 py-1 rounded-r-lg text-xs font-bold shadow-md">OUT OF STOCK</div>
+<div class="relative aspect-square">
+<img class="w-full h-full object-cover grayscale-[0.3]" data-alt="A luxury Coach Leather Crossbody bag in tan brown, displayed on a clean marble surface. The lighting is warm and elegant, creating soft highlights on the premium leather texture. The scene is sophisticated and minimalist, maintaining a sense of high value even for an out-of-stock item, following modern fintech-influenced design rules." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrq8bLRIwGmGPUFOPoWg7rdKppDwag7bv6W5VP1pKKEtPucAjt0zTCgggKfRLZg9AyJ5WNkGVUIMWcngH6pLOTWO_SL2-IYjRejw2vfkAbFXGyNDiq6VwdTf97AKs-F8lu-9-y0mkovPLXm5tUNpti4eM-nwiUW-YosVdSvjSpUMDSeLNHpIx2FeH8MnXYU97c-flzuU-SgF8hYyaf7W5_U06Q0bRwRM_8ZIM83fXb1Y_5sQIGr4aTEb0CuZDHQP2UxLThJEpKVrzl"/>
+</div>
+<div class="p-5 flex-1">
+<h3 class="font-headline-md text-headline-md mb-1 text-on-surface group-hover:text-primary transition-colors">Coach Leather Crossbody — Tan</h3>
+<p class="text-2xl font-bold text-on-surface mb-3">₦67,500</p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mb-4">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        4 days ago
+                    </div>
+</div>
+<div class="px-5 py-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-low/30">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">content_copy</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">edit</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white rounded-2xl overflow-hidden card-shadow card-shadow-hover transition-all flex flex-col group">
+<div class="relative aspect-square">
+<img class="w-full h-full object-cover" data-alt="A flowing silk wrap midi dress in emerald green hanging elegantly in a bright, modern studio. The soft lighting catches the sheen of the silk, highlighting its rich color and premium quality. The background is a clean off-white, consistent with the Modern Trust brand aesthetic of SafeSale." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuhIxboXwidYMImjXrgUWZyN3fd24OW8bBTvrwUcEPm4gSavWqWagmutF7itGBAJE_HL0_5jAJpwBdYfGcBq_nRUHpOnbFCLkfmaEvA7vnbej92cgOgIrrKpvhD5tqP2aRJa57k9bJijR4uQXvQpXrVeeY_VBbQVvdfH6R1tgZCYSMDWA9m-UuPOEuJhvDYm0YUhv9gtPy3FkrbFTk0Tm--tjTVMfvtwTFrDMVg_bYrBpIz9RMqZJqqH8dyobTjkiU_vYsLR0jKRoM"/>
+<div class="absolute top-3 left-3 bg-brand-emerald text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight">In stock</div>
+</div>
+<div class="p-5 flex-1">
+<h3 class="font-headline-md text-headline-md mb-1 text-on-surface group-hover:text-primary transition-colors">Silk Wrap Midi Dress — Emerald</h3>
+<p class="text-2xl font-bold text-on-surface mb-3">₦35,000</p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mb-4">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                        6 days ago
+                    </div>
+</div>
+<div class="px-5 py-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-low/30">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">content_copy</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">edit</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_horiz</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile FAB -->
+<button class="lg:hidden fixed bottom-24 right-6 w-14 h-14 bg-brand-emerald text-white rounded-full shadow-lg flex items-center justify-center z-40 active:scale-95 transition-transform" onclick="toggleSheet()">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-surface flex justify-around items-center px-4 py-2 border-t border-outline-variant">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="font-label-sm text-label-sm">Inventory</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</div>
+</nav>
+<!-- Slide-over Create Sheet -->
+<div class="fixed inset-0 z-[60] invisible overflow-hidden" id="create-sheet">
+<div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity" onclick="toggleSheet()"></div>
+<div class="absolute inset-y-0 right-0 max-w-lg w-full bg-white shadow-2xl flex flex-col translate-x-full transition-transform duration-300 ease-in-out" id="sheet-content">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md">New Listing</h2>
+<button class="p-2 hover:bg-surface-container rounded-full" onclick="toggleSheet()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Photo Slots -->
+<div class="grid grid-cols-3 gap-4">
+<div class="aspect-square border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary cursor-pointer transition-all">
+<span class="material-symbols-outlined text-3xl">add_a_photo</span>
+<span class="text-[10px] mt-1 font-bold">Add Photo</span>
+</div>
+<div class="aspect-square bg-surface-container rounded-xl"></div>
+<div class="aspect-square bg-surface-container rounded-xl"></div>
+</div>
+<!-- Fields -->
+<div class="space-y-4">
+<div>
+<label class="block font-label-md text-label-md mb-1.5">Product Title</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="e.g. Vintage Leather Jacket" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-label-md mb-1.5">Price (₦)</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="0.00" type="number"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md mb-1.5">Initial Stock</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="1" type="number"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md mb-1.5">Description</label>
+<textarea class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Tell buyers about your item..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-outline-variant bg-surface-container-low flex gap-3">
+<button class="flex-1 px-4 py-3 border border-outline-variant rounded-lg font-label-md text-label-md hover:bg-white transition-colors" onclick="toggleSheet()">Save Draft</button>
+<button class="flex-1 px-4 py-3 bg-brand-emerald text-white rounded-lg font-label-md text-label-md hover:brightness-95 transition-all" onclick="showShare()">Publish Listing</button>
+</div>
+</div>
+</div>
+<!-- Share Dialog -->
+<div class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4" id="share-dialog">
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="hideShare()"></div>
+<div class="bg-white rounded-2xl w-full max-w-md p-8 relative shadow-2xl scale-95 opacity-0 transition-all duration-200" id="share-content">
+<div class="text-center mb-6">
+<div class="w-16 h-16 bg-brand-emerald/10 text-brand-emerald rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl">check_circle</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Listing Published!</h3>
+<p class="text-on-surface-variant">Your item is now live and secure for buyers.</p>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-2 p-3 bg-surface-container rounded-lg border border-outline-variant">
+<input class="bg-transparent flex-1 text-sm outline-none" readonly="" type="text" value="safesale.ng/l/vntg-ralph-285"/>
+<button class="text-primary font-bold text-xs">COPY</button>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-surface-container transition-colors">
+<div class="w-10 h-10 bg-[#25D366] text-white rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">share</span>
+</div>
+<span class="text-xs font-bold">WhatsApp</span>
+</button>
+<button class="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-surface-container transition-colors">
+<div class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">close</span>
+</div>
+<span class="text-xs font-bold">X / Twitter</span>
+</button>
+<button class="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-surface-container transition-colors" onclick="hideShare()">
+<div class="w-10 h-10 bg-outline-variant text-on-surface rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">more_horiz</span>
+</div>
+<span class="text-xs font-bold">More</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Fragment (Hidden by default) -->
+<!-- 
+    <div class="flex flex-col items-center justify-center py-24 px-6 text-center max-w-md mx-auto">
+        <div class="w-24 h-24 bg-surface-container-highest rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-5xl text-outline">inventory</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md mb-2">No listings yet</h3>
+        <p class="text-on-surface-variant mb-8">Start your selling journey by creating your first secure listing today.</p>
+        <button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-bold shadow-lg hover:brightness-110 transition-all">+ Create Listing</button>
+    </div>
+    -->
+<script>
+        function toggleSheet() {
+            const sheet = document.getElementById('create-sheet');
+            const content = document.getElementById('sheet-content');
+            if (sheet.classList.contains('invisible')) {
+                sheet.classList.remove('invisible');
+                setTimeout(() => content.classList.remove('translate-x-full'), 10);
+            } else {
+                content.classList.add('translate-x-full');
+                setTimeout(() => sheet.classList.add('invisible'), 300);
+            }
+        }
+
+        function showShare() {
+            toggleSheet();
+            const dialog = document.getElementById('share-dialog');
+            const content = document.getElementById('share-content');
+            dialog.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        function hideShare() {
+            const dialog = document.getElementById('share-dialog');
+            const content = document.getElementById('share-content');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                dialog.classList.add('hidden');
+            }, 200);
+        }
+    </script>
+</body></html>

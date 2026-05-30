@@ -1,0 +1,209 @@
+// SafeSale Prisma schema
+// Generated client lives in node_modules/.prisma/client (default).
+// Mirrors the domain types in the frontend at src/lib/types.ts so the
+// API contracts and DB stay aligned.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --------------------------------------------------------------------------
+// EscrowStatus — the state machine an Order moves through
+// --------------------------------------------------------------------------
+enum EscrowStatus {
+  pending_payment // Order created, awaiting buyer bank transfer via MavaPay
+  paid // MavaPay webhook confirmed; funds held in SafeSale's MavaPay wallet
+  shipped // Seller marked shipped; 7-day auto-release countdown begins
+  delivered // Buyer marked received (optional intermediate step)
+  completed // MavaPay withdrawal to seller processed
+  disputed // Buyer opened dispute; funds frozen in MavaPay wallet
+  refunded // Funds returned to buyer via MavaPay
+}
+
+// --------------------------------------------------------------------------
+// DisputeStatus — mediation lifecycle
+// --------------------------------------------------------------------------
+enum DisputeStatus {
+  direct_resolution // 72h peer window
+  escalated // Auto-escalated to admin after 72h
+  evidence_requested // Admin asked for more evidence (24h sub-window)
+  mediating // Admin actively reviewing
+  resolved // Closed; see `resolution` JSON
+}
+
+// --------------------------------------------------------------------------
+// Seller — the merchant. Identified by npub (their Nostr public key).
+// --------------------------------------------------------------------------
+model Seller {
+  id       String  @id @default(cuid())
+  npub     String  @unique // Bech32 Nostr public key
+  pubkey   String  @unique // Hex form (for relay filter convenience)
+  handle   String  @unique // URL-safe slug for /:handle storefront
+  name     String
+  location String
+  phone    String
+  category String
+  bio      String?
+
+  // Payout details — NGN bank transfer (via MavaPay)
+  bankName    String? // Bank name (e.g. "GTBank")
+  bankCode    String? // Bank code for MavaPay (e.g. "058" for GTBank)
+  bankAccount String? // Account number
+  bankHolder  String? // Account name submitted by seller
+
+  // MavaPay Name Enquiry verification — populated when bank details are set
+  bankVerifiedName String?   // Name returned by MavaPay Name Enquiry API
+  bankVerifiedAt   DateTime? // When Name Enquiry was last verified
+
+  // OR direct Lightning payout
+  lnAddress String?
+
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listings Listing[]
+  orders   Order[]
+
+  @@index([handle])
+}
+
+// --------------------------------------------------------------------------
+// Listing — a product the seller is selling. Published as NIP-15 kind 30018.
+// --------------------------------------------------------------------------
+model Listing {
+  id       String @id @default(cuid())
+  sellerId String
+  seller   Seller @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+  priceNGN    Int // Stored in whole naira (kobo precision unnecessary at this scale)
+  images      Json // Array of { url, alt } objects
+  category    String
+  variants    Json? // Optional array of variant strings
+  inStock     Int     @default(1)
+  delivery    String?
+  active      Boolean @default(true)
+
+  // Cross-reference to the published Nostr event so clients can verify
+  nostrEventId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+
+  @@index([sellerId])
+  @@index([active])
+}
+
+// --------------------------------------------------------------------------
+// Order — a buyer-seller transaction. The orderToken is the buyer's only
+// credential (no buyer account exists). See PRD: "Buyer never needs an account."
+// --------------------------------------------------------------------------
+model Order {
+  id         String @id @default(cuid())
+  shortId    String @unique // Human-friendly "SS-7421" for support
+  orderToken String @unique // 22-char base32 secret in /order/:token URL
+
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+  sellerId  String
+  seller    Seller  @relation(fields: [sellerId], references: [id])
+
+  // Buyer's one-time Nostr pubkey — their identity for this transaction
+  buyerNpub   String
+  buyerPubkey String
+
+  buyerName     String
+  buyerPhone    String
+  buyerEmail    String?
+  buyerCity     String
+  buyerAddress  String?
+  contactMethod String? // "phone" | "email"
+
+  variant String?
+
+  amountNGN Int // In whole naira (converted to kobo for MavaPay API)
+
+  status EscrowStatus @default(pending_payment)
+
+  // MavaPay references
+  mavapayPaymentLinkId String? // Quote orderId (e.g. "43477-4306") for webhook matching
+  mavapayPaymentRef    String? // Transaction reference from webhook
+  mavapayQuoteData     Json?   // Pay-in quote response (bank details, expiry, etc.)
+
+  trackingNumber String?
+  carrier        String?
+
+  shippedAt  DateTime?
+  releasedAt DateTime?
+  refundedAt DateTime?
+
+  // 7 days after shipped — silent-buyer protection
+  autoReleaseAt DateTime?
+
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  dispute Dispute?
+
+  @@index([sellerId])
+  @@index([buyerPubkey])
+  @@index([status])
+  @@index([autoReleaseAt]) // background job scans here
+}
+
+// --------------------------------------------------------------------------
+// WebhookEvent — idempotency log for incoming MavaPay webhooks
+// --------------------------------------------------------------------------
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  provider    String   // "mavapay"
+  externalId  String   @unique // Dedupe key from MavaPay
+  payload     Json
+  status      String   // "received" | "processed" | "failed"
+  attempts    Int      @default(0)
+  receivedAt  DateTime @default(now())
+}
+
+// --------------------------------------------------------------------------
+// Dispute — opened against an Order. One per order max (1:1).
+// --------------------------------------------------------------------------
+model Dispute {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  reason   String
+  summary  String?
+  openedBy String // "buyer" | "seller"
+  priority String  @default("medium") // "low" | "medium" | "high"
+
+  status DisputeStatus @default(direct_resolution)
+
+  // 72h after open — auto-escalation deadline
+  directResolutionUntil DateTime?
+  // 24h after evidence-request deadline
+  evidenceDueAt         DateTime?
+
+  isReturn       Boolean @default(false)
+  // Three-checkpoint photo flow if a physical return is involved
+  returnEvidence Json?
+
+  // Final outcome — set when status flips to resolved
+  resolution Json?
+
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  @@index([status])
+}
