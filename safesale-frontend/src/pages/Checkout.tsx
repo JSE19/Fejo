@@ -602,7 +602,8 @@ function Paying({
   const handleSimulate = async () => {
     setSimulating(true);
     try {
-      await fetch("/api/dev/simulate-payment", {
+      const baseUrl = import.meta.env.VITE_API_URL?.replace(/\/+$/, "") ?? "";
+      await fetch(`${baseUrl}/api/dev/simulate-payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderToken }),

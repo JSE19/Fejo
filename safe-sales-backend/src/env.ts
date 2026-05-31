@@ -78,6 +78,11 @@ const EnvSchema = z.object({
     .transform((v) => (v && v.length > 0 ? v : 'http://localhost:3000'))
     .pipe(z.string().url()),
 
+  // Allow simulation endpoints in production (opt-in for staging/testing)
+  MAVAPAY_ALLOW_SIMULATION: z
+    .string()
+    .optional()
+    .transform((v) => v === 'true' || v === '1'),
   // SafeSale fee
   SAFESALE_FEE_LN_ADDRESS: z.string().optional(),
 

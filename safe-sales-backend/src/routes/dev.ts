@@ -3,7 +3,11 @@ import { z } from 'zod';
 import { env } from '../env.js';
 import type { Prisma } from '@prisma/client';
 import { handlePaymentReceived } from './mavapay.js';
-import { createPayInQuote, simulatePayIn, getBtcWalletBalance } from '../services/mavapay.js';
+import {
+  createPayInQuote,
+  simulatePayIn,
+  getBtcWalletBalance,
+} from '../services/mavapay.js';
 import { logger } from '../lib/logger.js';
 import { NotFound } from '../lib/errors.js';
 
@@ -13,10 +17,12 @@ const SimulatePaymentSchema = z.object({
 });
 
 const devRoute: FastifyPluginAsync = async (app) => {
-  // Guard the entire plugin in production.
+  // Guard the entire plugin in production unless MAVAPAY_ALLOW_SIMULATION is set.
   app.addHook('onRequest', async (_request, reply) => {
-    if (env.NODE_ENV === 'production') {
-      reply.code(404).send({ error: { code: 'NOT_FOUND', message: 'Not found' } });
+    if (env.NODE_ENV === 'production' && !env.MAVAPAY_ALLOW_SIMULATION) {
+      reply
+        .code(404)
+        .send({ error: { code: 'NOT_FOUND', message: 'Not found' } });
     }
   });
 
@@ -26,7 +32,9 @@ const devRoute: FastifyPluginAsync = async (app) => {
     const body = SimulatePaymentSchema.parse(request.body);
 
     const { prisma } = await import('../db/client.js');
-    const order = await prisma.order.findUnique({ where: { orderToken: body.orderToken } });
+    const order = await prisma.order.findUnique({
+      where: { orderToken: body.orderToken },
+    });
     if (!order) throw new NotFound('Order not found');
     const amount = body.amountNGN ?? order.amountNGN;
 
@@ -37,7 +45,10 @@ const devRoute: FastifyPluginAsync = async (app) => {
     // Create a fresh pay-in quote (the stored one may be expired)
     let mavapayQuoteId: string | undefined;
     try {
-      const freshQuote = await createPayInQuote(amount * 100, `${body.orderToken}_sim`);
+      const freshQuote = await createPayInQuote(
+        amount * 100,
+        `${body.orderToken}_sim`,
+      );
       mavapayQuoteId = freshQuote.quoteId;
 
       // Update stored quote data so the UI details stay valid
@@ -58,24 +69,33 @@ const devRoute: FastifyPluginAsync = async (app) => {
           mavapayQuoteData: newQuoteData as Prisma.InputJsonValue,
         },
       });
-      logger.info({ quoteId: freshQuote.quoteId }, 'Fresh pay-in quote created for simulation');
+      logger.info(
+        { quoteId: freshQuote.quoteId },
+        'Fresh pay-in quote created for simulation',
+      );
     } catch (err) {
       logger.warn(
         { err: err instanceof Error ? err.message : err },
         'Failed to create fresh quote — falling back to stored quote data',
       );
       // Fall back to stored quote data
-      const quoteData = order.mavapayQuoteData as Record<string, unknown> | null;
-      mavapayQuoteId = typeof quoteData?.quoteId === 'string' ? quoteData.quoteId : undefined;
+      const quoteData = order.mavapayQuoteData as Record<
+        string,
+        unknown
+      > | null;
+      mavapayQuoteId =
+        typeof quoteData?.quoteId === 'string' ? quoteData.quoteId : undefined;
     }
 
     // Credit BTC wallet via MavaPay simulation (quoteId only — avoids conflicts on staging)
-    await simulatePayIn(amount * 100, { quoteId: mavapayQuoteId }).catch((err) => {
-      logger.warn(
-        { err: err instanceof Error ? err.message : err },
-        'MavaPay simulatePayIn failed — wallet may not be credited',
-      );
-    });
+    await simulatePayIn(amount * 100, { quoteId: mavapayQuoteId }).catch(
+      (err) => {
+        logger.warn(
+          { err: err instanceof Error ? err.message : err },
+          'MavaPay simulatePayIn failed — wallet may not be credited',
+        );
+      },
+    );
 
     // Poll every 3s until balance increases or 30s timeout
     let afterBalance = beforeBalance;
@@ -84,7 +104,11 @@ const devRoute: FastifyPluginAsync = async (app) => {
       afterBalance = await getBtcWalletBalance().catch(() => 0);
       if (afterBalance > beforeBalance) {
         logger.info(
-          { beforeBalance, afterBalance, increase: afterBalance - beforeBalance },
+          {
+            beforeBalance,
+            afterBalance,
+            increase: afterBalance - beforeBalance,
+          },
           'BTC wallet credited via simulation',
         );
         break;
@@ -92,7 +116,10 @@ const devRoute: FastifyPluginAsync = async (app) => {
     }
 
     if (afterBalance <= beforeBalance) {
-      logger.warn({ beforeBalance, afterBalance }, 'BTC wallet not credited after 30s');
+      logger.warn(
+        { beforeBalance, afterBalance },
+        'BTC wallet not credited after 30s',
+      );
     }
 
     const result = await handlePaymentReceived(
@@ -102,7 +129,11 @@ const devRoute: FastifyPluginAsync = async (app) => {
       body.orderToken,
     );
 
-    return { ok: result.handled, simulatedAmountKobo: amount * 100, btcWalletSats: afterBalance };
+    return {
+      ok: result.handled,
+      simulatedAmountKobo: amount * 100,
+      btcWalletSats: afterBalance,
+    };
   });
 };
 
